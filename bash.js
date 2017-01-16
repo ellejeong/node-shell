@@ -1,20 +1,20 @@
 // // STDIN might be keyboard input
 // // STDOUT is displayed in the terminal as text
 
-var commands = require('./commands.js');
+const commands = require('./commands.js');
 
 // Output a prompt
-process.stdout.write('prompt > ');
+process.stdout.write('\nprompt > ');
 
 process.stdin.on('data', function (data) {
-  const cmd = data.toString().trim(); 
+  const tokens = data.toString().trim().split(' '); // echo hello $DEFAULT_USER
+  const cmd = tokens[0]; // echo
+  const args = tokens.slice(1).join(' '); // hello $DEFAULT_USER
 
   if(commands[cmd]) {
-    commands[cmd]();
+    commands[cmd](args);
   } else {
     process.stdout.write('Command not found: ' + cmd);
   }
-
-  process.stdout.write('\nprompt > ');
 
 });
